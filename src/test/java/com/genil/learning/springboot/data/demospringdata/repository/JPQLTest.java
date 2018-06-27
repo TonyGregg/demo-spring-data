@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import java.util.List;
@@ -43,6 +45,34 @@ public class JPQLTest {
 
         logger.info("List ... {} "+courseList);
 
+    }
+
+    @Test
+    public void playWithNamedQueries() {
+        logger.info("Playing with named queries");
+        TypedQuery<Course> courseTypedQuery = entityManager.createNamedQuery("query_get_all_courses",Course.class);
+        List<Course> courseList = courseTypedQuery.getResultList();
+        logger.info("Named Query :: List ... {} "+courseList);
+
+    }
+
+    @Test
+    public void playWithNativeBasics() {
+        Query query = entityManager.createNativeQuery("Select * from Course",Course.class);
+        List<Course> courseList = query.getResultList();
+
+        logger.info("Native Query :: List ... {} "+courseList);
+    }
+
+    @Test
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    public void doBulkUpdateTest() {
+        Query query = entityManager.createNativeQuery("update  Course set created_date = SYSDATE() -1");
+        int res = query.executeUpdate();
+        entityManager.flush();
+        entityManager.clear();
+        logger.info("Native Query Update result : {} "+res);
     }
 
 
