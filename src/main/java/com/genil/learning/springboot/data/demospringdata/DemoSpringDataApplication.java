@@ -2,6 +2,7 @@ package com.genil.learning.springboot.data.demospringdata;
 
 import com.genil.learning.springboot.data.demospringdata.entity.Course;
 import com.genil.learning.springboot.data.demospringdata.repository.CourseRepository;
+import com.genil.learning.springboot.data.demospringdata.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class DemoSpringDataApplication implements CommandLineRunner {
 	@Autowired
 	CourseRepository courseRepository;
 
+	@Autowired
+	StudentRepository studentRepository;
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -25,9 +29,9 @@ public class DemoSpringDataApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Course course =  courseRepository.findById(100L);
+		studentRepository.saveStudentWithPassport();
 
-		logger.info(" Course 100 {} ",course);
+//		logger.info(" Course 100 {} ",course);
 
 	}
 }
