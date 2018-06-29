@@ -14,8 +14,7 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", passport=" + passport +
+                ", name= '" + name + '\'' +
                 '}';
     }
 
@@ -51,6 +50,6 @@ public class Student {
         this.passport = passport;
     }
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.LAZY)
     private Passport passport;
 }

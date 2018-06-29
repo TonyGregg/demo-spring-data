@@ -29,7 +29,7 @@ public class DemoSpringDataApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		studentRepository.saveStudentWithPassport();
+//		studentRepository.saveStudentWithPassport();
 
 //		logger.info(" Course 100 {} ",course);
 

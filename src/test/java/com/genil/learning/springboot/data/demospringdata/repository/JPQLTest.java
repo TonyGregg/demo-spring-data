@@ -43,6 +43,7 @@ public class JPQLTest {
 
         logger.info("List ... {} "+courseList);
 
+
     }
 
 
