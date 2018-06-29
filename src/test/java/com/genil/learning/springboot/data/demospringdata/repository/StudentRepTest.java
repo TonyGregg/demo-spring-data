@@ -32,7 +32,7 @@ public class StudentRepTest {
 
 
 
-
+    //Transactional makes lazy fetch to work... not just for persist
     @Test
     @Transactional
     public void retrieveStudentAndPassportDetails() {
