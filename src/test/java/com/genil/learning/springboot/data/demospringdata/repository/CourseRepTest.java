@@ -70,4 +70,9 @@ public class CourseRepTest {
 
     }
 
+    @Test
+    public void updateTest(){
+        courseRepository.updateRecords();
+    }
+
 }

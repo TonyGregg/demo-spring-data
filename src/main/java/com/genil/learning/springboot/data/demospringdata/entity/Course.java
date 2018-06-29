@@ -17,6 +17,16 @@ import java.time.LocalDateTime;
 @Entity(name = "Course") // Entity name used in queries and everywhere else
 @Table(name = "Course") // Name of the table in DB
 //@SequenceGenerator(name="seq", initialValue=1, allocationSize=100)
+@NamedQuery(name = "query_get_all_courses", query = "Select c from Course c")
+/**
+ * For more than one @NamedQuery, use
+ * @NamedQueries(value = {
+     * @NamedQuery(name="query_1","select * from sleep"),
+     * @NamedQuery("name="query 2", "Select * from yawn")
+ *
+ * } )
+ */
+//@SequenceGenerator(name="seq", initialValue=1, allocationSize=100)
 
 public class Course {
     public Long getId() {
@@ -92,7 +102,6 @@ public class Course {
     @UpdateTimestamp
     @Column(name = "last_updated_date")
     private LocalDateTime lastModifiedDate;
-
 
 
 }

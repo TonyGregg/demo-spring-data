@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.LocalDateTime;
 
 /**
@@ -52,4 +53,12 @@ public class CourseRepository {
         return course;
 
     }
+
+    public int updateRecords() {
+        Query query = entityManager.createNativeQuery("update  Course set created_date = SYSDATE() -1");
+        int res = query.executeUpdate();
+        entityManager.flush();
+        return res;
+    }
+
 }
