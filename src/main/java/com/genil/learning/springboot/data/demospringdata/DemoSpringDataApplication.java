@@ -1,6 +1,8 @@
 package com.genil.learning.springboot.data.demospringdata;
 
 import com.genil.learning.springboot.data.demospringdata.entity.Course;
+import com.genil.learning.springboot.data.demospringdata.entity.Passport;
+import com.genil.learning.springboot.data.demospringdata.entity.Student;
 import com.genil.learning.springboot.data.demospringdata.repository.CourseRepository;
 import com.genil.learning.springboot.data.demospringdata.repository.StudentRepository;
 import org.slf4j.Logger;
@@ -32,6 +34,15 @@ public class DemoSpringDataApplication implements CommandLineRunner {
 //		studentRepository.saveStudentWithPassport();
 
 //		logger.info(" Course 100 {} ",course);
+
+		logger.info("Finding passport by id");
+		Passport passport = studentRepository.findPassportById(5L);
+
+		logger.info("Passport -> {}",passport);
+
+		Student student = passport.getStudent();
+
+		logger.info("Passport.Student -> {}",student);
 
 	}
 }

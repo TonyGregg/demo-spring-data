@@ -3,6 +3,7 @@
 
 #properties
 *.properties
+*.xlsx
 
 ### STS ###
 .apt_generated

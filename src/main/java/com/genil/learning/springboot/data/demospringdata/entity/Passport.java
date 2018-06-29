@@ -1,9 +1,6 @@
 package com.genil.learning.springboot.data.demospringdata.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by genil on 6/28/18 at 04 37
@@ -14,6 +11,8 @@ public class Passport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
+    private Student student;
 
     public Passport(String name) {
         this.name = name;
@@ -45,5 +44,16 @@ public class Passport {
         this.name = name;
     }
 
+
     private String name;
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+
 }

@@ -10,6 +10,9 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id private Long id;
 
+    @OneToOne (fetch = FetchType.LAZY)
+    private Passport passport;
+
     @Override
     public String toString() {
         return "Student{" +
@@ -50,6 +53,4 @@ public class Student {
         this.passport = passport;
     }
 
-    @OneToOne (fetch = FetchType.LAZY)
-    private Passport passport;
 }

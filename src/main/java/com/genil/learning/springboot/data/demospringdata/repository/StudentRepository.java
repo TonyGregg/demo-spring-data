@@ -64,4 +64,8 @@ public class StudentRepository {
         entityManager.persist(student);
 
     }
+
+    public Passport findPassportById(Long id) {
+        return entityManager.find(Passport.class,id);
+    }
 }
