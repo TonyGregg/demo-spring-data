@@ -1,6 +1,7 @@
 package com.genil.learning.springboot.data.demospringdata.repository;
 
 import com.genil.learning.springboot.data.demospringdata.entity.Course;
+import com.genil.learning.springboot.data.demospringdata.entity.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -101,6 +102,67 @@ public class JPQLTest {
         List<Course> courses = courseTypedQuery.getResultList();
 
         logger.info("# of order by {},\n\n and their list --> {}",courses.size(),courses);
+
+    }
+
+    @Test
+    public void jpqlWithPassortSomePattern(){
+        TypedQuery<Student> courseTypedQuery = entityManager.createQuery("select s from Student s " +
+                "where s.passport.name like '%1%'",Student.class);
+        List<Student> students = courseTypedQuery.getResultList();
+
+        logger.info("# of order by {},\n\n and their list --> {}",students.size(),students);
+    }
+
+    //Simple join Select c, s from Course c JOIN c.students s
+    //Left join Select c  from Course c LEFT JOIN c.students s
+    //Cross join select c,s from Course c, Student s
+    // 3, 4 then -==> 3*4 = 12 Rows
+    @Test
+    public void testJoins() {
+        Query query = entityManager.createQuery("Select c,s from Course c JOIN  c.students s");
+        List<Object[]> resultList = query.getResultList();
+        logger.info("Size "+resultList.size());
+
+        for (Object[] result: resultList) {
+            // result[0] :: course
+            // result [1] : student
+            logger.info("Course {}\n Student {} ",result[0],result[1]);
+
+
+        }
+
+    }
+
+    @Test
+    public void testLeftJoins() {
+        Query query = entityManager.createQuery("Select c,s from Course c LEFT JOIN  c.students s"); // Show students with null (no courses assigned) also
+        List<Object[]> resultList = query.getResultList();
+        logger.info("Size "+resultList.size());
+
+        for (Object[] result: resultList) {
+            // result[0] :: course
+            // result [1] : student
+            logger.info("Course {}\n Student {} ",result[0],result[1]);
+
+
+        }
+
+    }
+
+    @Test
+    public void testCrossJoins() {
+        Query query = entityManager.createQuery("Select c,s from Course c,Student s"); //Cross join
+        List<Object[]> resultList = query.getResultList();
+        logger.info("Size "+resultList.size());
+
+        for (Object[] result: resultList) {
+            // result[0] :: course
+            // result [1] : student
+            logger.info("Course {}\n Student {} ",result[0],result[1]);
+
+
+        }
 
     }
 
