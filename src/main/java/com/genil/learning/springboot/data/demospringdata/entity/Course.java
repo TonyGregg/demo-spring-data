@@ -6,6 +6,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by genil on 6/26/18 at 09 45
@@ -49,10 +51,17 @@ public class Course {
 
     }
 
-    //Primary key is important
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
+
+    public void removeReview(Review review) {
+        this.reviews.remove(review);
+    }
 
     public Course(String name) {
         this.name = name;
@@ -66,18 +75,13 @@ public class Course {
         this.name = name;
     }
 
-    private String name;
-
     public String getAuthorName() {
         return authorName;
     }
-
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
 
-    @Column(name = "conducted_by", length = 25)
-    private String authorName;
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
@@ -95,6 +99,16 @@ public class Course {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    //Primary key is important
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @Column(name = "conducted_by", length = 25)
+    private String authorName;
+
     @CreationTimestamp
     @Column(name = "created_date")
     private LocalDateTime createdDate;
@@ -102,6 +116,21 @@ public class Course {
     @UpdateTimestamp
     @Column(name = "last_updated_date")
     private LocalDateTime lastModifiedDate;
+
+    @OneToMany(mappedBy = "course")
+    List<Review> reviews = new ArrayList<>();
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+
+    @ManyToMany(mappedBy = "courses")
+    List<Student> students = new ArrayList<>();
+
 
 
 }

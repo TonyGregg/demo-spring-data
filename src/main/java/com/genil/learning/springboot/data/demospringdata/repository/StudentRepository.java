@@ -1,5 +1,6 @@
 package com.genil.learning.springboot.data.demospringdata.repository;
 
+import com.genil.learning.springboot.data.demospringdata.entity.Course;
 import com.genil.learning.springboot.data.demospringdata.entity.Passport;
 import com.genil.learning.springboot.data.demospringdata.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,19 @@ public class StudentRepository {
         Student student = new Student("Student B");
 
         student.setPassport(passport);
+
+        entityManager.persist(student);
+
+    }
+
+    public void insertStudentAndCourse() {
+        Student student = new Student("Jack Moan");
+        Course course = new Course("Microservices in 100 steps");
+        entityManager.persist(student);
+        entityManager.persist(course);
+
+        student.addCourse(course);
+        course.addStudent(student);
 
         entityManager.persist(student);
 

@@ -76,6 +76,34 @@ public class JPQLTest {
         logger.info("Native Query Update result : {} "+res);
     }
 
+    @Test
+    public void jpql_course_with_no_students() {
+        TypedQuery<Course> courseTypedQuery = entityManager.createQuery("select c from Course c " +
+                "where c.students is empty",Course.class);
+        List<Course> courses = courseTypedQuery.getResultList();
+
+        logger.info("# of courses without students {}, and their list --> {}",courses.size(),courses);
+    }
+    @Test
+    public void courseWithAtleast2Sudents() {
+        TypedQuery<Course> courseTypedQuery = entityManager.createQuery("select c from Course c " +
+                "where size(c.students) >=1",Course.class);
+        List<Course> courses = courseTypedQuery.getResultList();
+
+        logger.info("# of courses more than 1 students {},\n\n and their list --> {}",courses.size(),courses);
+
+    }
+
+    @Test
+    public void courseOrderBy() {
+        TypedQuery<Course> courseTypedQuery = entityManager.createQuery("select c from Course c " +
+                "order by size(c.students) desc",Course.class);
+        List<Course> courses = courseTypedQuery.getResultList();
+
+        logger.info("# of order by {},\n\n and their list --> {}",courses.size(),courses);
+
+    }
+
 
 
 
