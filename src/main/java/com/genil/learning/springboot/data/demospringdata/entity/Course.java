@@ -1,5 +1,6 @@
 package com.genil.learning.springboot.data.demospringdata.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,7 +20,7 @@ import java.util.List;
 @Entity(name = "Course") // Entity name used in queries and everywhere else
 @Table(name = "Course") // Name of the table in DB
 //@SequenceGenerator(name="seq", initialValue=1, allocationSize=100)
-@NamedQuery(name = "query_get_all_courses", query = "Select c from Course c")
+//@NamedQuery(name = "query_get_all_courses", query = "Select c from Course c")
 /**
  * For more than one @NamedQuery, use
  * @NamedQueries(value = {
@@ -28,8 +29,12 @@ import java.util.List;
  *
  * } )
  */
+@NamedQueries(value = {
+        @NamedQuery(name = "query_get_all_courses", query = "Select c from Course c"),
+        @NamedQuery(name = "query_get_all_courses_join_fetch", query = "from Course c JOIN FETCH c.students students")
+})
 //@SequenceGenerator(name="seq", initialValue=1, allocationSize=100)
-
+//@Cacheable
 public class Course {
     public Long getId() {
         return id;
@@ -128,6 +133,7 @@ public class Course {
         this.students.add(student);
     }
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "courses")
     List<Student> students = new ArrayList<>();
 

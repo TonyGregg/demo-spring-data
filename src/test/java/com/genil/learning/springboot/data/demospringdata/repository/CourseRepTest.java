@@ -1,6 +1,7 @@
 package com.genil.learning.springboot.data.demospringdata.repository;
 
 import com.genil.learning.springboot.data.demospringdata.entity.Course;
+import com.genil.learning.springboot.data.demospringdata.entity.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,6 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityGraph;
+import javax.persistence.EntityManager;
+import javax.persistence.Subgraph;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -25,6 +31,8 @@ public class CourseRepTest {
 
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    EntityManager entityManager;
 
 
 
@@ -75,7 +83,49 @@ public class CourseRepTest {
     @Transactional
     public void retrieveAllReviewsForACourse() {
         Course course = courseRepository.findById(101L);
-        logger.info("{}", course.getReviews());
+        logger.info("First attmepmpt ..{}", course.getReviews());
+
+        Course course2 = courseRepository.findById(101L);
+        logger.info("2nd attmepmpt ..{}", course2.getReviews());
+    }
+
+    @Test
+    @Transactional
+    public void testNplusOne() {
+        List<Course> courses = entityManager.createNamedQuery("query_get_all_courses",Course.class).getResultList();
+        logger.info("# of courses "+courses.size());
+        for (Course course: courses) {
+            logger.info("Course -> {} Students -> {} ",course,course.getStudents());
+        }
+    }
+
+
+    @Test
+    @Transactional
+    public void solveNPlusOneProblemGraph() {
+        EntityGraph<Course> entityGraph = entityManager.createEntityGraph(Course.class);
+        Subgraph<Student> courseSubgraph = entityGraph.addSubgraph("students");
+
+        List<Course> courses = entityManager.createNamedQuery("query_get_all_courses",Course.class)
+                .setHint("javax.persistence.loadgraph",entityGraph)
+                .getResultList();
+        logger.info("# of courses "+courses.size());
+        for (Course course: courses) {
+            logger.info("Course -> {} Students -> {} ",course,course.getStudents());
+        }
+    }
+
+
+    @Test
+    @Transactional
+    public void solveNPlusOneProblemJoinFetch() {
+
+        List<Course> courses = entityManager.createNamedQuery("query_get_all_courses_join_fetch",Course.class)
+                .getResultList();
+        logger.info("# of courses "+courses.size());
+        for (Course course: courses) {
+            logger.info("Course -> {} Students -> {} ",course,course.getStudents());
+        }
     }
 
     @Test

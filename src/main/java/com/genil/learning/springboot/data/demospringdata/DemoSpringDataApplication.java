@@ -57,7 +57,7 @@ public class DemoSpringDataApplication implements CommandLineRunner {
 //		Course course = courseRepository.findById(101L);
 //
 //		logger.info("Course -> {} "+course);
-//
+
 //		Review review1 = new Review(5,"101 Great hands-on stuff");
 //		Review review2 = new Review(5,"101 Hatsoff buddy");
 //
