@@ -34,11 +34,46 @@ import java.util.List;
         @NamedQuery(name = "query_get_all_courses_join_fetch", query = "from Course c JOIN FETCH c.students students")
 })
 //@SequenceGenerator(name="seq", initialValue=1, allocationSize=100)
-//@Cacheable
+@Cacheable
 public class Course {
+    //Primary key is important
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @Column(name = "conducted_by", length = 25)
+    private String authorName;
+
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "last_updated_date")
+    private LocalDateTime lastModifiedDate;
+
+    @OneToMany(mappedBy = "course")
+    List<Review> reviews = new ArrayList<>();
+
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "courses")
+    List<Student> students = new ArrayList<>();
+
+
     public Long getId() {
         return id;
     }
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+
 
     @Override
     public String toString() {
@@ -104,38 +139,7 @@ public class Course {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    //Primary key is important
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String name;
-
-    @Column(name = "conducted_by", length = 25)
-    private String authorName;
-
-    @CreationTimestamp
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    @UpdateTimestamp
-    @Column(name = "last_updated_date")
-    private LocalDateTime lastModifiedDate;
-
-    @OneToMany(mappedBy = "course")
-    List<Review> reviews = new ArrayList<>();
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void addStudent(Student student) {
-        this.students.add(student);
-    }
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "courses")
-    List<Student> students = new ArrayList<>();
 
 
 

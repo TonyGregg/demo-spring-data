@@ -1,6 +1,7 @@
 package com.genil.learning.springboot.data.demospringdata.repository;
 
 import com.genil.learning.springboot.data.demospringdata.entity.Course;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -14,6 +15,7 @@ import java.util.List;
 @RepositoryRestResource(path = "courses") // not recommended in production
 public interface CourseJPARepository extends JpaRepository<Course,Long> {
 
+    @Cacheable
     List<Course> findByName(String name);
     //Using query in JPA
     @Query(name = "query_get_all_courses")

@@ -15,6 +15,11 @@ public class Student {
     @OneToOne (fetch = FetchType.LAZY)
     private Passport passport;
 
+    @ManyToMany
+    @JoinTable(name = "STUDENT_COURSE", joinColumns = @JoinColumn(name = "STUDENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
+    private List<Course> courses = new ArrayList<>();
+
     @Override
     public String toString() {
         return "Student{" +
@@ -67,9 +72,5 @@ public class Student {
         this.courses.remove(course);
     }
 
-    @ManyToMany
-    @JoinTable(name = "STUDENT_COURSE", joinColumns = @JoinColumn(name = "STUDENT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "COURSE_ID"))
-    private List<Course> courses = new ArrayList<>();
 
 }
